@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body{
+				margin: 0;
+			}
+			.box{
+				width: 1920px;
+				height: 1080px;
+			}
+			.box1{
+				width: 10%;
+				height: 10%;
+				float: left;
+				box-sizing: border-box;
+				border: 1px solid #fff;
+				background: url(图片擦擦擦/img/timg.jpg) no-repeat ;
+				opacity: 0.5;
+			}
+			.box1:hover{
+				transform: scale(1.2);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			
+		</div>
+		<script>
+			var str = "";
+			var str1 = "";
+			var box =document.querySelector(".box");
+				for(var i=0;i<10;i++){
+					for(var j=0;j<10;j++){
+					str +=`<span class="box1";></span>`
+					}
+					str +="</br>"
+				}	
+				
+			box.innerHTML = str;
+			var box1 =document.querySelectorAll(".box1");
+			for(var p =0;p<100;p++){
+				box1[p].style.backgroundPositionX = -p%10*192+"px"
+				box1[p].style.backgroundPositionY = -Math.floor(p/10)*108+"px"
+			}
+			console.log(box1)
+			for(var k=0;k<box1.length;k++){
+				box1[k].onmouseover =function(){
+					this.style.opacity = 1;
+
+				}
+				box1[k].onmouseout =function(){					
+				}
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
+    .slide-container {
+      width: 720px;
+      height: 450px;
+      border: 4px solid #000;
+      margin: 30px auto;
+      position: relative;
+    }
+    .slides {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .slider-item img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .slider-item {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.4s linear;
+    }
+    .slider-item.active {
+      opacity: 1;
+    }
+    .navs {
+      position: absolute;
+      left: 50%;
+      bottom: 5%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+    .nav-item {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      transform: scale(0.5);
+      background-color: rgb(71, 173, 221);
+      border-radius: 50%;
+      position: relative;
+    }
+    .nav-item .s-img {
+      position: absolute;
+      width: 100%;
+      transform: translateX(50%) scale(4);
+      left: -50%;
+      top: -180%;
+      display: none;
+    }
+    .nav-item:hover .s-img {
+      display: block;
+    }
+    .nav-item.active {
+      background-color: rgb(228, 50, 141);
+    }
+    .prev,
+    .next {
+      width: 40px;
+      height: 80px;
+      background-color: rgba(0, 0, 0, 0.2);
+      text-align: center;
+      line-height: 80px;
+      font-size: 40px;
+      color: #fff;
+      font-weight: bold;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+    .prev {
+      left: 0;
+    }
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="slides">
+    </div>
+    <div class="navs">
+
+    </div>
+    <div class="prev"><</div>
+    <div class="next">></div>
+  </div>
+  <script>
+    // 数据
+    var imgData = [
+      './img/1.jpg',
+      './img/2.jpg',
+      './img/3.jpg',
+      './img/4.jpg',
+      './img/5.jpg'
+    ]; 
+    var Img = document.querySelector(".slides");
+    var Btn = document.querySelector(".navs");
+    var Btnstr = '';
+    var Imgstr = '';
+//		创建img和s-img
+		for(var i=0;i<imgData.length;i++){
+			Imgstr +=`<div class="slider-item">
+    						<img src=${imgData[i]} alt="" />
+    						</div>`
+    	Btnstr +=`<div class="nav-item">
+    						<img src="${imgData[i]}" alt="" class="s-img" />
+    						</div>`										
+		}
+		
+		Img.innerHTML=Imgstr;
+		Btn.innerHTML=Btnstr;
+//		点击切换图片
+		var prev = document.querySelector(".prev");
+		var next = document.querySelector(".next");
+		var pic = document.querySelectorAll(".slider-item");
+		var btns =document.querySelectorAll(".nav-item");
+		var num = 0;
+		console.log(btns)
+		
+		change()
+		function change(){
+			for(var i=0;i<imgData.length;i++){
+				pic[i].classList.remove("active");
+				btns[i].classList.remove("active");
+			}
+			pic[num].classList.add("active");
+			btns[num].classList.add("active");
+		}
+		
+		prev.onclick = function(){
+			num--
+			if(num<0)num=imgData.length-1
+			change();
+			console.log(1)
+		}
+		
+		next.onclick = function(){
+			num++
+			if(num>imgData.length-1)num=0
+			change();
+		}
+		
+		for(var j=0;j<imgData.length;j++){
+			btns[j].a = j;
+			btns[j].onclick = function(){
+				for(var j=0;j<imgData.length;j++){
+					btns[j].classList.remove("active");
+					pic[j].classList.remove("active");
+				}
+				this.classList.add("active");
+				pic[this.a].classList.add("active");
+				num =this.a
+			}
+		}
+  </script>
+</body>
+</html>

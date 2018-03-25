@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			ul{
+				margin:0;
+				padding: 0;
+				list-style: none;
+			}
+			.box{
+				width: 764px;
+				height: 800px;
+				background: url(音乐全选/bg.png) no-repeat;
+				overflow: hidden;
+			}
+			.box1{
+				width: 400px;
+				height: 500px;
+				background:#fff url(音乐全选/logo.png) no-repeat center;
+				margin: 200px auto;
+				border-radius: 5px;
+				
+			}
+			.sings{
+				display: flex;
+				flex-direction: column;
+				padding: 10px 0;
+				background: rgba(255,255,255,0.7);
+			}
+			.sings li{
+				padding:25px  30px;
+			}
+			/*.sings li:hover{
+				background: lightpink;
+				color: #fff;
+			}*/
+			.box1 li span{
+				float: left;
+			}
+			.box1 li span:nth-child(1){
+				width: 15px;
+				height: 15px;
+				border: 1px solid #000000;
+				margin-top: 2px;
+			}
+			.box1 li span:nth-child(2){
+				margin-left: 20px;
+			}
+			.box1 li span:nth-child(3){
+				float: right;
+			}
+			li:nth-child(2n){
+				background: rgba(233,87,117,0.5);
+			}
+			.set{
+				height:70px;
+				line-height: 70px;
+				background: deeppink;
+			}
+			.set span:nth-child(1){
+				float: left;
+				width: 15px;
+				height: 15px;
+				border: 1px solid #000000;
+				margin-top: 30px;
+				margin-left:20px;
+				line-height: 15px;
+			}
+			.set span:nth-child(2){
+				vertical-align: middle;
+				margin-left: 20px;
+				color: #fff;
+			}
+			li.active{
+				background: deeppink;
+				color: #fff;
+			}
+			li.hover{
+				background: lightpink;
+				color: #fff;
+			}
+			.right{
+				text-align: center;
+				color: #000000;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			<div class="box1">
+				<ul class="sings">
+					<li>
+						<span class = "right"></span>
+						<span>泡沫</span>
+						<span>邓紫棋</span>
+					</li>
+					<li>
+						<span class = "right"></span>
+						<span>泡沫</span>
+						<span>邓紫棋</span>
+					</li>
+					<li>
+						<span class = "right"></span>
+						<span>泡沫</span>
+						<span>邓紫棋</span>
+					</li>
+					<li>
+						<span class = "right"></span>
+						<span>泡沫</span>
+						<span>邓紫棋</span>
+					</li>
+					<li>
+						<span class = "right"></span>
+						<span>泡沫</span>
+						<span>邓紫棋</span>
+					</li>
+					<li>
+						<span class = "right"></span>
+						<span>泡沫</span>
+						<span>邓紫棋</span>
+					</li>
+				</ul>
+				<div class="set">
+					<span class = "rightall"></span>
+					<span>全选</span>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		var btn = document.querySelectorAll("li");
+		var right = document.querySelectorAll(".right");
+		var rightall = document.querySelector(".rightall");
+		var num = 0;
+		var n = '';
+		var invoke = false;
+		for(var i=0;i<btn.length;i++){
+			btn[i].a = i;
+			btn[i].b =false		
+			btn[i].onclick =function(){
+				n= this.b
+				console.log(n)
+				this.classList.remove("hover");
+				
+				
+				
+					if(this.b){
+					this.classList.remove("active");
+					right[this.a].innerText = "";
+					num--
+				}else{
+					this.classList.add("active");
+					right[this.a].innerText = "✔";
+					num++
+				}
+					this.b = !this.b;
+					
+						
+					if(num==6){
+						rightall.innerText = "✔";
+						invoke =true;
+
+//						console.log(invoke)
+					}else{
+						rightall.innerText = "";
+						invoke =false;
+					}
+				}
+
+				 
+			btn[i].onmouseover =function(){
+				if(this.b){
+					this.classList.remove("hover");
+				}else{
+					this.classList.add("hover");
+				}
+			}
+			btn[i].onmouseout =function(){
+				this.classList.remove("hover");
+			}
+}
+			
+
+
+		rightall.onclick = function(){
+				if(invoke){
+					rightall.innerText="";
+				for(var i=0;i<btn.length;i++){
+					btn[i].classList.remove("active");
+					btn[i].b = false;
+					right[i].innerText="";
+					num = 0
+				}
+				}else{
+					rightall.innerText="✔";
+					for(var i=0;i<btn.length;i++){
+					btn[i].classList.add("active");
+					btn[i].b = true;
+					right[i].innerText="✔";
+					}
+					num=6;
+				}
+				invoke = !invoke;
+			}
+//			classList.toggle("",true)   toggle里面是有两个值，一个是class的名字  另一个就是true或者是false
+//          1、首先分析事件的逻辑，主要分为三个事件   
+//                 第一个是单个菜单栏的点击关闭 ，在单个菜单选择关闭或者是打开的时候会出现一个true和false值
+//                 第二个是六个菜单栏全部是active的状态，全选键被选中 ，所有的单个菜单就都是false状态，
+//							单个菜单被active的时候增加一个值当这个值为所有单个菜单的个数的时候全选菜单被激活，
+//							单个菜单被取消的时候减少这个值，当这个值小于单个菜单的个数的时候全选菜单被取消激活
+//                 第三个是全选菜单被选中的时候所有菜单栏被选中，所有的菜单的都为true或者都为false
+//
+//           练习的关键点就是把单个全选菜单的true和false和单个菜单的true和fales串联起来
+//           toggle自带的true和false能很好的解决这个问题
+//           this.classList.contains('selected')中的classList.contains是用来判断的，这个class为true吗？在前面可以加！
+	</script>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.box{
+				width: 500px;
+				height: 200px;
+				border: 1px solid #000000;
+				margin: 0 auto;
+			}
+			.text{
+			}
+			.shuchu{
+				margin-top: 10px;
+				display:flex;
+				flex-direction: column;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			var arr = ['100px', 'abc' - 6, [], -98765, 34, -2, 0, '300', , function() {
+    alert(1);
+}, null, document, [], true, '200px' - 30, '23.45元', 5, Number('abc'), function() {
+    alert(3);
+}, 'xyz' - 90];
+		</div>
+		<div class="find">开始查找</div>
+		<div class="shuchu">
+			<span>所有的数字是：</span>
+			<span>可以转成数字的：</span>
+			<span>转成数字的最大值：</span>
+			<span>所有运算结果是NaN的位置：</span>
+		</div>
+	</body>
+	<script>
+		var  arr =[
+		'100px', 'abc' - 6, [], -98765, 34, -2, 0, '300', , function() {
+    alert(1);
+}, null, document, [], true, '200px' - 30, '23.45元', 5, Number('abc'), function() {
+    alert(3);
+}, 'xyz' - 90
+		]
+		var num = 0;
+		var find = document.querySelector(".find");
+		var span = document.querySelectorAll("span")
+		var max =0;
+
+		for(var i=0;i<arr.length;i++){	
+			if(typeof arr[i]==="number"&&arr[i]===arr[i]){
+				span[0].innerText += arr[i]+",";
+			} 
+			if(parseFloat(arr[i])){
+				span[1].innerText += arr[i]+",";
+
+				if(max<parseFloat(arr[i])){
+					max = parseFloat(arr[i])
+					span[2].innerText = '转成数字的最大值:'+max;
+				}
+			}	
+			if(arr[i]!=arr[i]){
+				span[3].innerText += i+",";
+			}
+		}
+			
+//		console.log(Object.keys(arr))
+</script>
+</html>

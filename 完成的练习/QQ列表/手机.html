@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			ul{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.box{
+				width: 1000px;
+				height: 800px;
+				background: url(QQ列表/bg.png) no-repeat;
+			}
+			.phone{
+				width: 384px;
+				height: 707px;
+				background: url(QQ列表/bg1.png) no-repeat;
+				padding-top: 50px;
+				color: #FFF;
+			}
+			.phone .myfriend{
+				font: 14px/30px "微软雅黑";
+				height: 30px;
+				width: 200px;
+				text-indent: 50px;
+				background: rgba(0,0,0,0.9);
+				margin-top: 10px;
+				margin-left:80px ;
+				position: relative;
+			}
+			.phone .sanjiao{
+				position: absolute;
+				border-top: 6px solid transparent;
+				border-bottom: 6px solid transparent;
+				border-left: 6px solid #fff;
+				border-right: 6px solid transparent;
+				width: 0;
+				height: 0;
+				font-size: 0;
+				left: 30px;
+				top: 10px;
+			}
+			.who{
+				display: flex;
+				flex-direction:column;
+				font: 14px/30px "微软雅黑";
+				height: 120px;
+				width: 200px;
+				text-indent: 50px;
+				background: rgba(0,0,0,0.9);
+				margin-left:80px ;
+				display: none;
+			}
+			.who span:hover{
+				background: #008000;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			<div class="phone">
+					<div class="myfriend">
+						<span class="sanjiao"></span>
+						<span>我的好友</span>
+					</div>
+					<div class="who">
+						<span>习近平</span>
+						<span>李克强</span>
+						<span>王沪宁</span>
+						<span>许其亮</span>
+					</div>
+					<div class="myfriend">
+						<span class="sanjiao"></span>
+						<span>企业好友</span>
+					</div>
+					<div class="who">
+						<span>马云</span>
+						<span>王健林</span>
+						<span>马化腾</span>
+					</div>
+					<div class="myfriend">
+						<span class="sanjiao"></span>
+						<span>黑名单</span>
+					</div>
+					<div class="who">
+						<span>菲律宾</span>
+						<span>越南</span>
+						<span>日本</span>
+					</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		var Mf = document.querySelectorAll(".myfriend");
+		var Sj = document.querySelectorAll(".sanjiao");
+		var who = document.querySelectorAll(".who");
+		console.log(Mf)
+		console.log(Sj)
+		console.log(who)
+		
+		for(var i=0;i<3;i++){
+			Mf[i].a=i;
+			Mf[i].b=false;
+			Mf[i].onclick = function(){
+				if(this.b){
+					this.style.backgroundColor = ""
+					who[this.a].style.display = "none";
+				}else{
+					this.style.backgroundColor = "pink"
+					who[this.a].style.display = "flex";
+				}
+				this.b=!this.b
+			}
+		}
+
+	</script>
+</html>
