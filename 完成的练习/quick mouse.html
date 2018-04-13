@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .box{
+            width: 1000px;
+            height: 700px;
+            background: purple;
+            position: relative;
+        }
+        .box .left{
+            width: 200px;
+            text-align: center;
+            position: absolute;
+            left:200px;
+            transition: 1s;
+        }
+        .box .left .left-top{
+            width: 100px;
+            height: 100px;
+            border:1px solid #0a8aec;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            font:20px "微软雅黑";
+            margin-top:100px;
+        }
+        .box .left .left-bottom{
+            width: 100px;
+            height: 100px;
+            border:1px solid #0a8aec;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            font:20px "微软雅黑";
+        }
+        .box .left span{
+            display: inline-block;
+            padding-top:20px;
+        }
+        .box .right {
+            float: right;
+            width:600px;
+            height: 380px;
+            border:5px solid #0b84c2;
+            margin-right:200px;
+            position: relative;
+        }
+        .box .start{
+            position: absolute;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0;
+            margin:auto;
+            width: 120px;
+            height:50px;
+            border:2px solid #fff;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            border-radius: 20px;
+            text-align: center;
+            font:20px/50px "微软雅黑";
+        }
+        .box .right span{
+            position: absolute;
+            top:0;
+            background: #fff000;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            opacity: 0;
+        }
+        
+    </style>
+</head>
+<body>
+        <div class="box">
+            <div class="left">
+                <div class="left-top">
+                    <span>0分</br>得分</span>
+                </div>
+                <div class="left-bottom">
+                    <span>0分</br>失分</span>
+                </div>
+            </div>
+            <div class="right">
+                <span class="play"></span>
+            </div>
+            <div class="start">开始游戏</div>
+        </div>
+</body>
+<script>
+   //点击开始游戏
+    const box = document.querySelector(".box");
+    const start = document.querySelector(".start");
+    const left = document.querySelector(".left");
+    const right = document.querySelector(".right");
+    const lose =document.querySelector(".box .left .left-bottom");
+    const win =document.querySelector(".box .left .left-top");
+    const play = document.querySelector(".play");
+    let timmer1 = null;
+    let timmer  ;
+    let time =60;
+    let a = 0;
+    let b = 0;
+    let offon = true;
+
+
+   start.onclick =function () {
+        start.style.display = "none"
+        left.style.left = "0"
+        move(play)
+    }
+
+   play.onclick = function () {
+       b++
+       win.innerHTML = `<span>${b}分</br>得分</span>`
+       dou(play,"left")
+       clearTimeout(timmer)
+   }
+   //下降
+   function move(obj){
+       play.style.opacity = "1"
+       let num = 0;
+       obj.style.left = 500*Math.random() +'px';
+       console.log(obj)
+       timmer = setInterval(function () {
+           if(num>=380){
+               clearTimeout(timmer);
+               ++a
+               lose.innerHTML = `<span>${a}分</br>失分</span>`
+               dou(box,"top")
+               if(a==4){
+                   alert("玩完了")
+               }
+               move(play)
+           }else{
+               num +=2;
+               obj.style.top = num +'px';
+           }
+       },time)
+
+   }
+   //抖动
+
+    function dou(x,attr){
+       let timmer2 = null;
+       let arr = [];
+       let d  = 0;
+       let px = parseFloat(getComputedStyle(x)[attr]);
+       for (let i = 16;i>=2;i-=2){
+           arr.push(i,-i);
+       }
+       arr.push(0);
+        timmer2 = setInterval(function () {
+            x.style[attr]= px+arr[d]+"px"
+            d ++
+            if(d>arr.length){
+                clearTimeout(timmer2)
+                if(x==play){
+                    x.style.left = 500*Math.random() +'px';
+                    x.style.top ="0"
+                    time = time/1.5
+                    move(x)
+                }
+            }
+        },2000)
+
+    }
+</script>
+</html>

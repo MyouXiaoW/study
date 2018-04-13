@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul{
+            padding:0;
+            margin:0;
+            list-style: none;
+            height: 200px;
+            width: 800px;
+        }
+        li{
+            float: left;
+        }
+        li div{
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>
+            <div><img src="img/1.png" alt=""></div>
+            <div></div>
+        </li>
+        <li><img src="img/1.png" alt=""></li>
+        <li><img src="img/second1.png" alt=""></li>
+        <li><img src="img/1.png" alt=""></li>
+        <li><img src="img/1.png" alt=""></li>
+        <li><img src="img/second1.png" alt=""></li>
+        <li><img src="img/1.png" alt=""></li>
+        <li><img src="img/1.png" alt=""></li>
+    </ul>
+</body>
+<script>
+    const imgs = document.querySelectorAll("img")
+    let arr = ["img/0.png","img/1.png","img/2.png","img/3.png","img/4.png","img/5.png","img/6.png","img/7.png","img/8.png","img/9.png","img/second1.png"]
+    time();
+
+    setInterval(time ,1000);
+
+    function time() {
+        let d =new Date();
+        let H =d.getHours();
+        let M =d.getMinutes();
+        let s =d.getSeconds();
+        let str = todou(H) +":"+todou(M) +":"+todou(s)
+        Array.from(imgs).map((e,i,arr) => {
+            if( i!=2 && i!=5){
+                e.src = "img/"+str[i]+".png";
+        }
+        })
+    }
+
+
+    function todou(n){
+        return (n>10)? n+'':"0"+n
+    }
+</script>
+</html>
