@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul{
+            padding:0;
+            margin:0;
+            list-style: none;
+            width: 45px;
+            height:62px;
+            position: absolute;
+            /* margin-top: 100px */
+        }
+        .box1{
+            float: left;
+            width: 45px;
+            height:62px;
+            position: relative;
+            overflow: hidden;
+            border:1px solid #1c1b18;
+        }
+        img{
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    <div class="box1">
+        <ul>
+            <li><img src="img/1.png" alt="" class="img1"></li>
+            <li><img src="img/2.png" alt="" class="img2"></li>
+        </ul>
+    </div>
+    <div class="box1">
+        <ul>
+            <li><img src="img/1.png" alt="" class="img1"></li>
+            <li><img src="img/2.png" alt="" class="img2"></li>
+        </ul>
+    </div>
+    <div class="box1">
+        <ul>
+            <li><img src="img/second1.png" alt="" class="img1"></li>
+            <li><img src="img/second1.png" alt="" class="img2"></li>
+        </ul>
+    </div>
+    <div class="box1">
+        <ul>
+            <li><img src="img/1.png" alt="" class="img1"></li>
+            <li><img src="img/2.png" alt="" class="img2"></li>
+        </ul>
+    </div>
+    <div class="box1">
+        <ul>
+            <li><img src="img/1.png" alt="" class="img1"></li>
+            <li><img src="img/2.png" alt="" class="img2"></li>
+        </ul>
+    </div>
+    <div class="box1">
+        <ul>
+            <li><img src="img/second1.png" alt="" class="img1"></li>
+            <li><img src="img/second1.png" alt="" class="img2"></li>
+        </ul>
+    </div>
+    <div class="box1">
+        <ul>
+            <li><img src="img/1.png" alt="" class="img1"></li>
+            <li><img src="img/2.png" alt="" class="img2"></li>
+        </ul>
+    </div>
+    <div class="box1">
+        <ul>
+            <li><img src="img/1.png" alt="" class="img1"></li>
+            <li><img src="img/2.png" alt="" class="img2"></li>
+        </ul>
+    </div>
+
+</body>
+<script>
+    const ul =document.querySelectorAll("ul");
+    const box1 = document.querySelectorAll(".box1");
+    const imgs1 = document.querySelectorAll(".img1");
+    const imgs2 = document.querySelectorAll(".img2");
+    let arr = ["img/0.png","img/1.png","img/2.png","img/3.png","img/4.png","img/5.png","img/6.png","img/7.png","img/8.png","img/9.png","img/second1.png"]
+
+    console.log(box1)
+
+    move()
+    setInterval(move,1000)
+    
+    function move() {
+        let d =new Date();
+        let H =d.getHours();
+        let M =d.getMinutes();
+        let s =d.getSeconds();
+        let str = todou(H) +":"+todou(M) +":"+todou(s)
+        console.log(str)
+        Array.from(imgs1).forEach((e,i)=>{
+            if(i!=2&&i!=5){
+                e.src = "img/"+str[i]+".png"
+                e.index =str[i]
+            }
+        });
+        
+        setTimeout(function(){
+            let d1 =new Date();
+            let H1 =d1.getHours();
+            let M1 =d1.getMinutes();
+            let s1 =d1.getSeconds();
+            let str1 = todou(H1) +":"+todou(M1) +":"+todou(s1)
+            Array.from(imgs2).forEach((e,i)=>{
+                if(i!=2&&i!=5){
+                    e.src = "img/"+str1[i]+".png"
+                    e.index =str1[i]
+                }
+            });
+            for(let i=0;i<imgs1.length;i++){
+                if(imgs1[i].index !=imgs2[i].index){
+                    ul[i].style.transform = "translateY(-62px)";
+                    ul[i].style.transition = ".3s"
+                    imgs2[i].src = "img/"+str1[i]+".png"
+                    setTimeout(function(){
+                        imgs1[i].src = "img/"+str1[i]+".png"
+                        ul[i].style.transition ="none"
+                        ul[i].style.transform = "translateY(0)"
+                    }, 400);
+                }
+            }
+        },990)
+        
+    }
+
+    function todou(n){
+        return (n>9)? n+'':"0"+n
+    }
+</script>
+</html>

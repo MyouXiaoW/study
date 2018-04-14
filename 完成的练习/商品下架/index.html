@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #e15671;
+			text-align: center;
+			font-family: Arial;
+			font-size: 14px;
+		}
+		
+		.clear{zoom:1}
+		.clear:after{display:block;clear:both;content:"";visibility:hidden;height:0} 
+
+		#logo {
+			margin: 56px auto;
+			width: 241px;
+			height: 60px;
+			display: inline-block;
+			background: url('images/logo.png') no-repeat;
+		}
+
+		#container {
+			margin: 0 auto 10px;
+			position: relative;
+			width: 990px;
+			height: 440px;
+			text-align: center;
+		}
+
+		.box {
+			position: absolute;
+			width: 240px;
+			height: 440px;
+		}
+		.box:nth-child(1) {
+			left: 0;
+			top: 0;
+		}
+		.box:nth-child(2) {
+			left: 250px;
+			top: 0;
+		}
+		.box:nth-child(3) {
+			left: 500px;
+			top: 0;
+		}
+		.box:nth-child(4) {
+			left: 750px;
+			top: 0;
+		}
+		.box .header {
+			padding: 0 20px;
+			height: 40px;
+			line-height: 40px;
+			background-color: #191919;
+			color: #e15671;
+		}
+		.box .header .time {
+			float: left;
+			margin-top: 5px;
+			background: #191919;
+			width: 150px;
+			height: 24px;
+			border: 0;
+			border-bottom: 1px solid #E15671;
+			outline: none;
+			line-height: 24px;
+			color: #E15671;
+			font-size: 14px;
+		}
+		.box .header .time:focus {
+			border-bottom-color: rgba(37, 139, 253, 1);
+			color: rgba(37, 139, 253, 1);
+		}
+		.box .header .btn {
+			float: right;
+			cursor: pointer;
+		}
+		.box .content {
+			padding: 30px 12px;
+			background-color: #fff;
+		}
+		.box .countdown {
+			height: 28px;
+			overflow: hidden;
+		}
+		.box .countdown span {
+			float: left;
+			margin-right: 3px;
+			line-height: 28px;
+			text-align: center;
+		}
+		.box .countdown span.text {
+			width: 55px;
+			color: #8f8f8f;
+		}
+		.box .countdown span.number {
+			width: 19px;
+			background-color: #e15671;
+			color: #fff;
+			font-weight: bold;
+			border-radius: 4px;
+		}
+		.box .countdown span.point {
+			color: #e15671;
+			font-weight: bold;
+		}
+		.box .thumbnail {
+			display: table-cell;
+			width: 216px;
+			height: 209px;
+			vertical-align: middle;
+			text-align: center;
+		}
+		.box .name {
+			line-height: 24px;
+			font-weight: bold;
+		}
+		.box .price-text {
+			line-height: 38px;
+			color: #8f8f8f;
+		}
+		.box .price-text .price {
+			color: #e15671;
+			font-weight: bold;
+		}
+		.box .mask {
+			display: none;
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			z-index: 99;
+			background: rgba(0,0,0,.7);
+		}
+		.box .sold-out-img {
+			display: none;
+			position: absolute;
+			left: 54px;
+			top: 154px;
+			z-index: 100;
+			width: 132px;
+			height: 132px;
+			background: url('images/sold-out.png') no-repeat;
+			background-size: contain;
+		}
+
+		#list {
+			width: 990px;
+			margin: 0 auto 0;
+			border-collapse: collapse;
+		}
+		#list thead {
+			background-color: #191919;
+			color: white;
+			height: 40px;
+			line-height: 40px;
+		}
+		#list thead th {
+			padding-left: 20px;
+		}
+		#list thead th:nth-child(1) {
+			width: 430px;
+			text-align: left;
+		}
+		#list thead th:nth-child(2) {
+			width: 450px;
+			text-align: left;
+		}
+		#list thead th:nth-child(3) {
+			width: *;
+		}
+
+		#list tbody tr:nth-child(odd) {
+			background-color: #fff;
+		}
+		#list tbody tr:nth-child(even) {
+			background-color: #f6f5f6;
+		}
+		#list tbody td {
+			padding: 20px;
+			height: 40px;
+			text-align: left;
+		}
+		#list tbody td:nth-child(2) {
+			color: #E15671;
+			font-weight: bold;
+		}
+		#list tbody td:nth-last-child(1) {
+			text-align: center;
+		}
+		#list td img {
+			width: 30px;
+		}
+		
+		footer {
+			margin-top: 50px;
+			padding: 10px;
+			text-align: center;
+			line-height: 28px;
+			color: #FFFFFF;
+		}
+		footer a {
+			text-decoration: none;
+			color: #FFFFFF;
+		}
+		.allprice {
+			opacity: 0;	
+		}
+	</style>
+</head>
+<body>
+
+	<header><a href="javascript:;" id="logo"></a></header>
+
+	<div id="container" class="clear">
+
+		<div class="box">
+			<div class="header">
+				<input class="time" value="2016 11 29 19:41:00">
+				<span class="btn">确定</span>
+			</div>
+			<div class="content">
+
+				<div class="countdown">
+					<span class="text">剩余</span>
+					<span class="number">0</span>
+					<span class="number">0</span>
+					<span class="point">:</span>
+					<span class="number">0</span>
+					<span class="number">9</span>
+					<span class="point">:</span>
+					<span class="number">4</span>
+					<span class="number">0</span>
+				</div>
+
+				<a href="javascript:;" class="thumbnail">
+					<img src="images/goods_1.png">
+				</a>
+
+				<p class="name">iphone7s plus 酷炫手机</p>
+				<p class="price-text">
+					抢购价：
+					<span class="price">￥8000</span>
+				</p>
+
+			</div>
+			<div class="mask"></div>
+			<div class="sold-out-img"></div>
+		</div>
+
+		<div class="box">
+			<div class="header">
+				<input class="time" value="2018 04 14 00:36:00">
+				<span class="btn">确定</span>
+			</div>
+			<div class="content">
+
+				<div class="countdown">
+					<span class="text">剩余</span>
+					<span class="number">0</span>
+					<span class="number">0</span>
+					<span class="point">:</span>
+					<span class="number">0</span>
+					<span class="number">9</span>
+					<span class="point">:</span>
+					<span class="number">4</span>
+					<span class="number">0</span>
+				</div>
+
+				<a href="javascript:;" class="thumbnail">
+					<img src="images/goods_2.png">
+				</a>
+
+				<p class="name">27 英寸配备 Retina 5K显示屏</p>
+				<p class="price-text">
+					抢购价：
+					<span class="price">￥15999</span>
+				</p>
+
+			</div>
+			<div class="mask"></div>
+			<div class="sold-out-img"></div>
+		</div>
+
+		<div class="box">
+			<div class="header">
+				<input class="time" value="2016 11 29 19:41:00">
+				<span class="btn">确定</span>
+			</div>
+			<div class="content">
+
+				<div class="countdown">
+					<span class="text">剩余</span>
+					<span class="number">0</span>
+					<span class="number">0</span>
+					<span class="point">:</span>
+					<span class="number">0</span>
+					<span class="number">9</span>
+					<span class="point">:</span>
+					<span class="number">4</span>
+					<span class="number">0</span>
+				</div>
+
+				<a href="javascript:;" class="thumbnail">
+					<img src="images/goods_3.png">
+				</a>
+
+				<p class="name">魅族、锤子、小米 "集"群</p>
+				<p class="price-text">
+					抢购价：
+					<span class="price">￥20000</span>
+				</p>
+
+			</div>
+			<div class="mask"></div>
+			<div class="sold-out-img"></div>
+		</div>
+
+		<div class="box">
+			<div class="header">
+				<input class="time" value="2016 11 29 19:41:00">
+				<span class="btn">确定</span>
+			</div>
+			<div class="content">
+
+				<div class="countdown">
+					<span class="text">剩余</span>
+					<span class="number">0</span>
+					<span class="number">0</span>
+					<span class="point">:</span>
+					<span class="number">0</span>
+					<span class="number">0</span>
+					<span class="point">:</span>
+					<span class="number">0</span>
+					<span class="number">0</span>
+				</div>
+
+				<a href="javascript:;" class="thumbnail">
+					<img src="images/goods_4.png">
+				</a>
+
+				<p class="name">iWatch 智能手表不智能</p>
+				<p class="price-text">
+					抢购价：
+					<span class="price">￥5000</spa n>
+				</p>
+
+			</div>
+			<div class="mask"></div>
+			<div class="sold-out-img"></div>
+		</div>
+
+	</div>
+
+	<table id="list">
+		<thead>
+			<tr>
+				<th>商品</th>
+				<th>价钱</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- <tr>
+				<td>27 英寸配备 Retina 5K显示屏</td>
+				<td>￥15999</td>
+				<td></td>
+			</tr> -->
+			
+		</tbody>
+		<tbody class = allprice>
+		</tbody>
+	</table>
+	
+	<footer>
+		<span>&copy; <a href="http://miaov.com">MIAOV.COM</a> 版权所有</span>
+	</footer>
+	
+<script>
+	/*
+		记得做求和
+	*/
+	const box =document.querySelectorAll(".box")
+	const time  = document.querySelectorAll(".time")
+	const btn  = document.querySelectorAll(".btn")
+	const countdown  = document.querySelectorAll(".countdown")
+	const numbernone  = countdown[0].querySelectorAll(".number")
+	const numberntwo  = countdown[1].querySelectorAll(".number")
+	const numbernthree  = countdown[2].querySelectorAll(".number")
+	const numbernfour  = countdown[3].querySelectorAll(".number")
+	const mask = document.querySelectorAll(".mask")
+	const soldoutimg = document.querySelectorAll(".sold-out-img")
+	const tbody = document.querySelector("tbody")
+	const name =document.querySelectorAll(".name")
+	const price =document.querySelectorAll(".price")
+	const img =document.querySelectorAll("img")
+	const allprice =document.querySelector(".allprice")//这是自己写的一个tbody标签
+	const len =time.length
+
+
+	let Totime = (time[1].value.split(" ")).join(",");//转化成时间单位
+	let future = new Date(Totime);//将本地时间改为未来的时间
+
+	let arr =[];//储存输入的未来时间的数组
+	let arr1 = [numbernone,numberntwo,numbernthree,numbernfour]//这是用来放放每个countdown中的number方便我将时间导入
+
+	let arr2=[];//这是dou的数组
+	for(let i=16;i>0;i-=2){
+		arr2.push(i,-i)
+	}
+	arr2.push(0)
+
+	
+
+	
+	Array.from(btn).forEach((e,i)=>{
+		e.onclick = function(){
+			arr[i]=new Date((time[i].value.split(" ")).join(","))//将未来时间导入数组
+			submittime(arr[i],arr1[i],e,i,box[i],"left")
+		}
+	})
+	
+	function submittime(x,y,z,j,obj,attr){//一个我不知道怎么简化的函数，哈哈  
+		clearTimeout(z.timmer)
+		z.time = 0;
+		z.timmer = setInterval(function(){//这个定时器是，未来的时间-现在的时间然后再把得到的差值转化成时间单位，输入到number中
+			let nowTime = new Date();
+			let t = Math.floor(x -nowTime) / 1000;
+			console.log(t)
+			let id = Math.floor(t/86400);
+			t%=86400;
+			let iH = Math.floor(t/3600);
+			t%=3600;
+			let iM = Math.floor(t/60);
+			t%=60;
+			let str =todou(iH)+todou(iM) +todou(Math.floor(t))
+			for(let i=0;i<numbernone.length;i++){
+				y[i].innerHTML = str[i]
+			}
+			
+			if(t<=0){//当差事为小于等于0的时候，定时器停止
+				clearTimeout(z.timmer)
+
+				for(let i=0;i<numbernone.length;i++){//因为时间不是非常的精准，所以手动调零，同时也防止了输入的未来时间比现在时间小，number显示的负值
+					y[i].innerHTML = 0
+				}
+				//那个cutdown时间到了哪个的商品信息就会被加到最下面
+				tbody.innerHTML +=`<tr>     
+									<td>${name[j].innerText}</td>
+									<td>${price[j].innerText}</td>
+									<td><img src=${img[j].src}>></td>
+								  </tr>`
+
+				let total = [0]//总计价格的数组，里面的0就是单纯的占地用的，防止total.reduce()报错
+				//把得到的价格信息放到total数组中
+				total.push(price[j].innerText.substring(1))
+				//t<=0的收，allprice不透明。把计算的值输入到表单中
+				allprice.style.opacity =1;
+				allprice.innerHTML = `<tr>
+										<td>${"总价"}</td>
+										<td>￥${total.reduce((a,b)=>{return a*1+b*1})}</td>
+										<td></td>
+									  </tr>`
+				//t<=0的时候就出现下架的事件了
+				mask[j].style.display = "block";
+				soldoutimg[j].style.display = "block";
+				let timmer ;
+				let d = 0;
+				let px =parseFloat(getComputedStyle(obj)[attr])
+				timmer =setInterval(function(){
+					obj.style[attr]=px+arr2[d]+"px"
+					d++
+					if(d>arr2.length){
+					clearTimeout(timmer)
+					}
+				},20)
+			}
+		},1000)
+		
+	}
+
+	function todou(n){
+        return (n>9)? n+'':"0"+n
+    };
+
+
+	
+</script>
+
+</body>
+</html>
