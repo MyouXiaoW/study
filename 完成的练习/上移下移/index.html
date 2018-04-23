@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/main.css">
+	<style>
+		li{
+			transition: 1s;
+		}
+		.wrap .wrap-left .list{
+			position: relative;
+		}
+		/* .wrap-left .list li{
+			position:absolute;
+		} */
+	</style>
+</head>
+<body>
+<section class="wrap">
+	<div class="wrap-left">
+		<ul class="list">
+			<li>
+				<span>jQuery</span>
+				<div class="btn">
+					<a href="javascript:;"  class="up">上移</a>
+					<a href="javascript:;" class="down">下移</a>
+				</div>
+			</li>
+			<li>
+				<span>AJAX</span>
+				<div class="btn">
+					<a href="javascript:;"  class="up">上移</a>
+					<a href="javascript:;" class="down">下移</a>
+				</div>
+			</li>
+			<li>
+				<span>JS基础-2</span>
+				<div class="btn">
+					<a href="javascript:;"  class="up">上移</a>
+					<a href="javascript:;" class="down">下移</a>
+				</div>
+			</li>
+			<li>
+				<span>移动端实战</span>
+				<div class="btn">
+					<a href="javascript:;"  class="up">上移</a>
+					<a href="javascript:;" class="down">下移</a>
+				</div>
+			</li>
+			<li>
+				<span>canvas游戏</span>
+				<div class="btn">
+					<a href="javascript:;"  class="up">上移</a>
+					<a href="javascript:;" class="down">下移</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="wrap-right">
+		<ul class="list">
+			<li>
+				<span>jQuery</span>
+				<div class="btn">
+					<a href="javascript:;"  class="up"></a>
+					<a href="javascript:;" class="down"></a>
+				</div>
+			</li>
+			<li>
+				<span>小程序</span>
+				<div class="btn">
+					<a href="javascript:;"  class="up"></a>
+					<a href="javascript:;" class="down"></a>
+				</div>
+			</li>
+			<li>
+				<span>jQuery</span>
+				<div class="btn">
+					<a href="javascript:;"  class="up"></a>
+					<a href="javascript:;" class="down"></a>
+				</div>
+			</li>
+			<li>
+				<span>面向对象-上</span>
+				<div class="btn">
+					<a href="javascript:;"  class="up"></a>
+					<a href="javascript:;" class="down"></a>
+				</div>
+			</li>
+			<li>
+				<span>面向对象-下</span>
+				<div class="btn">
+					<a href="javascript:;"  class="up"></a>
+					<a href="javascript:;" class="down"></a>
+				</div>
+			</li>
+		</ul>
+	</div>
+</section>
+<script>
+	const list1 = document.getElementsByClassName("list")[0];
+	let lis =list1.getElementsByTagName("li")
+	let upBtn = list1.getElementsByClassName("up")
+	let downBtn = list1.getElementsByClassName("down")
+
+	let arr=[]
+	for(let i=0;i<lis.length;i++){
+		arr[i]=lis[i].offsetTop;
+		
+	}
+	arr.forEach((e,i)=>{
+		lis[i].style.position = "absolute";
+		lis[i].style.top =arr[i]+"px"
+	})
+	
+	// console.log(arr)
+	Array.from(downBtn).map((e,i)=>{
+		e.onclick=function(){
+			let now =e.parentNode.offsetParent
+			let a=now.offsetTop+"px"
+			let next =e.parentNode.offsetParent.nextElementSibling
+			if(now==list1.lastElementChild){
+				list1.insertBefore(now,list1.firstElementChild)
+				setTimeout(function(){
+					now.style.top = "0"
+				})
+				for(let i=1;i<lis.length;i++){
+					lis[i].style.top=arr[i]+"px"
+				}
+			}else{
+				list1.insertBefore(now,now.nextElementSibling.nextElementSibling)
+				now.style.top =next.offsetTop+"px"
+				next.style.top =a
+			}
+		}
+	});
+
+	Array.from(upBtn).map((e,i)=>{
+		e.onclick=function(){
+			let now =e.parentNode.offsetParent
+			let a=now.offsetTop+"px"
+			let prev =e.parentNode.offsetParent.previousElementSibling
+			if(now==list1.firstElementChild){
+				list1.insertBefore(now,list1.lasttElementChild)
+				setTimeout(function(){
+					now.style.top = "248px"
+				})
+				for(let i=0;i<lis.length-1;i++){
+					lis[i].style.top=arr[i]+"px"
+				}
+			}else{
+				list1.insertBefore(now,now.previousElementSibling)
+				now.style.top =prev.offsetTop+"px"
+				prev.style.top =a
+			}	
+		}
+	});
+
+
+
+	const list2 = document.getElementsByClassName("list")[1];
+	let lis1 =list2.getElementsByTagName("li")
+	let upBtn1 = list2.getElementsByClassName("up")
+	let downBtn1 = list2.getElementsByClassName("down")
+	console.log(upBtn1)
+	let arr1=[]
+	for(let i=0;i<lis.length;i++){
+		arr1[i]=lis1[i].offsetTop;
+		
+	}
+	arr.forEach((e,i)=>{
+		lis1[i].style.position = "absolute";
+		lis1[i].style.top =arr[i]+"px"
+	})
+	
+	// console.log(arr)
+	Array.from(downBtn1).map((e,i)=>{
+		e.onclick=function(){
+			let now =e.parentNode.offsetParent
+			let a=now.offsetTop+"px"
+			let next =e.parentNode.offsetParent.nextElementSibling
+			if(now==list2.lastElementChild){
+				list2.insertBefore(now,list2.firstElementChild)
+				setTimeout(function(){
+					now.style.top = "0"
+				})
+				for(let i=1;i<lis.length;i++){
+					lis1[i].style.top=arr[i]+"px"
+				}
+			}else{
+				list2.insertBefore(now,now.nextElementSibling.nextElementSibling)
+				now.style.top =next.offsetTop+"px"
+				next.style.top =a
+			}
+		}
+	});
+
+	Array.from(upBtn1).map((e,i)=>{
+		e.onclick=function(){
+			let now =e.parentNode.offsetParent
+			let a=now.offsetTop+"px"
+			let prev =e.parentNode.offsetParent.previousElementSibling
+			if(now==list2.firstElementChild){
+				list2.insertBefore(now,list2.lasttElementChild)
+				setTimeout(function(){
+					now.style.top = "248px"
+				})
+				for(let i=0;i<lis.length-1;i++){
+					lis1[i].style.top=arr[i]+"px"
+				}
+			}else{
+				list2.insertBefore(now,now.previousElementSibling)
+				now.style.top =prev.offsetTop+"px"
+				prev.style.top =a
+			}	
+		}
+	});
+</script>	
+</body>
+</html>
