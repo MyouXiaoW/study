@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .box{
+            background:blue;
+            background-clip: content-box;
+            border: 1px dashed #000;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: .5;
+            /* display: none; */
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="box"></div> -->
+</body>
+<script>
+    const box = document.getElementsByClassName("box");
+    
+    // 点击位置生成一个div
+    document.onmousedown =function(ev){
+        let x=ev.pageX;
+        let y=ev.pageY;
+        console.log(x)
+        let div = document.createElement("div");
+        div.className = "box";
+        document.documentElement.appendChild(div);
+        box[0].style.top = y+"px";
+        box[0].style.left = x+"px";
+        document.onmousemove =function(ev){
+            box[0].style.width=Math.abs(ev.pageX-x)+"px";
+            box[0].style.height=Math.abs(ev.pageY-y)+"px";
+            if(ev.pageX>x&&ev.pageY<y){
+                  box[0].style.transform = `translateY(${-(y-ev.pageY)+"px"})`
+            }
+            if(ev.pageX>x&&ev.pageY>y){
+                box[0].style.width=ev.pageX-x+"px";
+                 box[0].style.height=ev.pageY-y+"px";
+            }
+            if(ev.pageX<x&&ev.pageY>y){
+                 box[0].style.transform = `translateX(${-(x-ev.pageX)+"px"})`
+            }
+            if(ev.pageX<x&&ev.pageY<y){
+                 box[0].style.transform = `translate(${-(x-ev.pageX)+"px"},${-(y-ev.pageY)+"px"})`
+            }
+        }
+        document.onmouseup = function(){
+            div.remove()
+            document.onmousemove=document.onmousedown =null;
+        }
+    }
+</script>
+</html>
