@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+ul{}
+ul li{
+    width:50px;
+    height:50px;
+    float: left;
+    margin: 5px;
+    background: red;
+    transition: .5s;
+}
+</style>
+</head>
+<body>
+    <ul id="ul">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+<script>
+    let num = 0; 
+    let lis = ul.children;
+    let time =500;
+    let time1 =500;
+    let timer = null;
+    // document.onclick = function(){
+    //     timer = setInterval(function(){
+    //         lis[num].style.transform = 'translateY(300px)'
+    //         num ++;
+    //     },100);
+    // }
+
+    Array.from(lis).forEach((e,i)=>{
+        e.index =false
+        e.onclick =function(){
+            drop(e)
+        }
+    })
+
+    function drop(obj){
+        time =500
+        time1 =500
+        obj.timer  = setInterval(function(){
+        obj.style.transform = `translateY(${obj.index? "300px":"0px"})`
+            if(obj.offsetTop==5){
+            clearTimeout(obj.timer)
+            }
+        },time);
+        obj.index =!obj.index;
+        a(obj)
+        b(obj) 
+    }
+
+    function a(obj){
+        time=time+100;
+        if(obj.previousElementSibling){
+            let prev = obj.previousElementSibling;
+            obj.previousElementSibling.timer = setInterval(function(){
+            obj.previousElementSibling.style.transform = `translateY(${prev.index? "300px":"0px"})`
+            if(obj.previousElementSibling.offsetTop==5){
+            clearTimeout(obj.previousElementSibling.timer)
+            }
+        },time);
+        prev.index =!prev.index;
+        a(prev)
+        }
+    }
+    
+    function b(obj){
+        time1+=100;
+        if(obj.nextElementSibling){
+            let next = obj.nextElementSibling
+            let d =  obj.offsetTop
+            obj.nextElementSibling.timer = setInterval(function(){
+                obj.nextElementSibling.style.transform = `translateY(${next.index? "300px":"0px"})`
+            if(obj.nextElementSibling.offsetTop==5){
+            clearTimeout(obj.nextElementSibling.timer)
+            }
+        },time1);
+        next.index =!next.index;
+        b(next)
+        }
+    }
+</script>
+</body>
+</html>
