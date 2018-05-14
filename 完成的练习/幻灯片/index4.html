@@ -170,7 +170,7 @@
 		
 		for(var j=0;j<imgData.length;j++){
 			btns[j].a = j;
-			btns[j].onclick = function(){
+			btns[j].onmouseover = function(){
 				for(var j=0;j<imgData.length;j++){
 					btns[j].classList.remove("active");
 					pic[j].classList.remove("active");

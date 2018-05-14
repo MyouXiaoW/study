@@ -97,6 +97,7 @@
 		</ul>
 	</div>
 </section>
+<script src='tween.js'></script>
 <script>
 	const list1 = document.getElementsByClassName("list")[0];
 	let lis =list1.getElementsByTagName("li")
@@ -106,56 +107,79 @@
 	let arr=[]
 	for(let i=0;i<lis.length;i++){
 		arr[i]=lis[i].offsetTop;
-		
 	}
-	arr.forEach((e,i)=>{
-		lis[i].style.position = "absolute";
-		lis[i].style.top =arr[i]+"px"
-	})
+	console.log(arr)
 	
-	// console.log(arr)
-	Array.from(downBtn).map((e,i)=>{
+	Array.from(lis).forEach((e,i)=>{
+		e.style.position = "absolute";
+		e.style.top =arr[i]+"px"
+	})
+
+	Array.from(downBtn).forEach((e,i)=>{
 		e.onclick=function(){
+			console.log(arr)
 			let now =e.parentNode.offsetParent
 			let a=now.offsetTop+"px"
 			let next =e.parentNode.offsetParent.nextElementSibling
 			if(now==list1.lastElementChild){
 				list1.insertBefore(now,list1.firstElementChild)
-				setTimeout(function(){
-					now.style.top = "0"
-				})
-				for(let i=1;i<lis.length;i++){
-					lis[i].style.top=arr[i]+"px"
-				}
+				// setTimeout(function(){
+				// 	now.style.top = "0"
+				// })
+				
 			}else{
 				list1.insertBefore(now,now.nextElementSibling.nextElementSibling)
-				now.style.top =next.offsetTop+"px"
-				next.style.top =a
+				// now.style.top =next.offsetTop+"px"
+				// next.style.top =a
 			}
+			
 		}
 	});
 
-	Array.from(upBtn).map((e,i)=>{
+	Array.from(upBtn).forEach((e,i)=>{
 		e.onclick=function(){
 			let now =e.parentNode.offsetParent
-			let a=now.offsetTop+"px"
+			// let a=now.offsetTop+"px"
 			let prev =e.parentNode.offsetParent.previousElementSibling
 			if(now==list1.firstElementChild){
-				list1.insertBefore(now,list1.lasttElementChild)
-				setTimeout(function(){
-					now.style.top = "248px"
-				})
-				for(let i=0;i<lis.length-1;i++){
-					lis[i].style.top=arr[i]+"px"
-				}
+				list1.appendChild(now);
+				console.log(1)
+				// setTimeout(function(){
+				// 	now.style.top = "248px"
+				// })
+				
 			}else{
 				list1.insertBefore(now,now.previousElementSibling)
-				now.style.top =prev.offsetTop+"px"
-				prev.style.top =a
-			}	
+				// now.style.top =prev.offsetTop+"px"
+				// prev.style.top =a
+			}
+			setTimeout(function(){
+				for(let i=0;i<lis.length;i++){
+					lis[i].style.top=arr[i]+"px"
+				}
+			})
+			
+			
 		}
+		
 	});
+	function M1(){
+		
+					
+					console.log(1)
+	}
+	function m(){
+				for(let i=0;i<lis.length;i++){
+					move({
+						el:lis[i],
+						attr:{
+							top:arr[i]
+						},
+						d:500
+					})
+				}
 
+	}
 
 
 	const list2 = document.getElementsByClassName("list")[1];
@@ -173,7 +197,6 @@
 		lis1[i].style.top =arr[i]+"px"
 	})
 	
-	// console.log(arr)
 	Array.from(downBtn1).map((e,i)=>{
 		e.onclick=function(){
 			let now =e.parentNode.offsetParent
