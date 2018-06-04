@@ -1,0 +1,205 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="/public/css/weibo.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="nArea">
+    <!--留言-->
+    <div class="takeComment">
+        <textarea name="textarea" class="takeTextField" id="text"></textarea>
+        <div class="takeSbmComment">
+            <input type="button" id="submit" class="inputs" value=""/>
+            <span>(可按 Enter 回复)</span>
+        </div>
+    </div>
+    <!--已留-->
+    <div class="commentOn">
+        <div class="messList" id="div1" style="height:502px">
+            <!--<div class="reply">
+                <p class="replyContent">卫士，新款卫士将推出总共14种车身式样。其中， XS旅行款车型售价为32295英镑(约33.6万元)。</p>
+                <p class="operation">
+                    <span class="replyTime">2018-09-08 16:37:60</span>
+                    <span class="handle">
+                        <a href="javascript:;" class="top">0</a>
+                        <a href="javascript:;" class="down_icon">0</a>
+                        <a href="javascript:;" class="cut">删除</a>
+                    </span>
+                </p>
+            </div>-->
+        </div>
+        <div class="page" id="page">
+            <a href="#" class="active">1</a>
+            <!-- <a href="#" >2</a> -->
+        </div>
+    </div>
+</div>
+<script>
+    let submit = document.getElementById('submit');
+    let text = document.getElementById('text');
+    let div1 = document.getElementById('div1');
+    let num1 =1;
+
+    getWb(1).then(arr=>{
+        console.log(arr)
+        arr.forEach(e=> {
+            div1.appendChild(render(e.content,e.time,e.id,e.like,e.dislike));
+        });
+    });
+    getpageWb().then(res=>{
+        for(let i=1;i<res.count;i++){
+            let a=document.createElement("a")
+            a.innerHTML = i+1;
+            page.appendChild(a)
+        }
+    })
+    
+    //获取数据，刷新能看到数据库中的
+    async function getWb(num){
+        let res = await fetch('/api/weibo?act=get&page='+num);
+        return await res.json();
+    }
+    
+    async function getpageWb(){
+        let res = await fetch('/api/weibo?act=get_page_count');
+        return await res.json();
+    }
+
+    submit.addEventListener('click',function(){
+        let val = text.value;
+        if(!val){alert("请输入内容")}
+        /*
+            未来会变
+        */
+       else{
+           setWb(val).then((res)=>{
+            if(res[0].code ==0){
+                div1.insertBefore(render(val,res[1].time,res[1].id),div1.children[0]);
+                text.value = '';
+                if(page.children.length<res[0].count){
+                    console.log(1)
+                    let a=document.createElement("a")
+                    a.innerHTML = res[0].count;
+                    page.appendChild(a)
+                }
+            }
+        });
+       }
+        
+    }); 
+
+    async function setWb(val){
+        let res = await fetch('/api/weibo?act=add&content='+val)
+        let res1 = await fetch('/api/weibo?act=get_page_count')
+        return [await res1.json(),await res.json()];
+    }   
+
+    async function likeWb(val){
+        let res = await fetch(`/api/weibo?act=like&id=${val}`);
+        return await res.json();
+    }
+
+    async function dislikeWb(val){
+        let res = await fetch(`/api/weibo?act=dislike&id=${val}`);
+        return await res.json();
+    }
+
+    async function diswb(num,val){
+        let res = await fetch(`/api/weibo?act=del&id=${val}`);
+        let res1 = await fetch('/api/weibo?act=get&page='+num);
+        let res2 = await fetch('/api/weibo?act=get_page_count')
+        return  [await res1.json(),await res2.json()];
+    }
+
+    function render(val,time,id,like,dislike){
+        
+        let div = document.createElement('div');
+        div.className = 'reply';
+        div.dataset.index =id;
+        let date = new Date(time); //传入一个服务器的时间
+        let iYear =  date.getFullYear();
+        let iMoun =  date.getMonth() + 1;
+        let iDate = date.getDate();
+        let iH = date.getHours();
+        let iM = date.getMinutes();
+        let iS = date.getSeconds();
+        let str = iYear + '-' +tDou(iMoun) + '-' + tDou(iDate);
+        str += ' '+ tDou(iH) + ':' + tDou(iM) + ':'+ tDou(iS);
+
+        div.innerHTML = `
+            <p class="replyContent">${val}</p>
+            <p class="operation">
+                <span class="replyTime">${str}</span>
+                <span class="handle">
+                    <a href="javascript:;" class="top">${like}</a>
+                    <a href="javascript:;" class="down_icon">${dislike}</a>
+                    <a href="javascript:;" class="cut">删除</a>
+                </span>
+            </p>`;
+        div.onclick = function(ev){
+            let DelDiv=ev.target.parentNode.parentNode.parentNode;
+            if(ev.target.innerHTML=="删除"){
+                diswb(num1,DelDiv.dataset.index).then(res=>{
+                    if(page.children.length>res[1].count){
+                        page.removeChild(page.lastElementChild)
+                        page.lastElementChild.className="active"
+                        getWb(res[1].count).then(e=>{
+                            e.forEach(e=> {
+                                div1.appendChild(render(e.content,e.time,e.id));
+                            })
+                        })
+                    }
+                    div1.innerHTML = "";
+                    res[0].forEach(e=> {
+                        div1.appendChild(render(e.content,e.time,e.id));
+                    },err=>{
+                        console.log('出错了')
+                    });
+                });
+            }
+            if(ev.target.className=="top"){
+               
+                likeWb(DelDiv.dataset.index).then(res=>{
+                    console.log(res)
+                    if(res.code ==0){ 
+                        ev.target.innerHTML = ev.target.innerHTML*1+1;
+                    }
+                });
+            }
+            if(ev.target.className=="down_icon"){
+               
+                dislikeWb(DelDiv.dataset.index).then(res=>{
+                   console.log(res)
+                   if(res.code ==0){ 
+                       ev.target.innerHTML = ev.target.innerHTML*1+1;
+                   }
+               });
+           }
+        }
+        return div;
+    }
+    page.onclick = function(ev){
+        if(ev.target.tagName=="A"&&ev.target.className!="active"){
+            num1 =ev.target.innerHTML*1
+            Array.from(page.children).forEach(e=>{
+                e.className="";
+            })
+            ev.target.className="active";
+            getWb(ev.target.innerHTML).then(arr=>{
+                    div1.innerHTML = "";
+                        arr.forEach(e=> {
+                            div1.appendChild(render(e.content,e.time,e.id));
+                        });
+                    });
+        }
+    }
+
+    function tDou(n){
+        return n<10?'0'+n:''+n;
+    }
+
+</script>
+</body>
+</html>
